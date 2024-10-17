@@ -1,0 +1,132 @@
+CREATE DATABASE BASINAYDDL;
+
+USE BASINAYDDL;
+
+Create Orders Table
+
+CREATE TABLE Orders (
+
+    OrderID INT PRIMARY KEY AUTO_INCREMENT,
+
+    EmployeeID INT,
+
+    CustomerID INT,
+
+    OrderDate DATE,
+
+    ShippedDate DATE,
+
+    ShipperID INT,
+
+    FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID),
+
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
+
+    FOREIGN KEY (ShipperID) REFERENCES Shippers(ShipperID)
+
+);
+
+
+
+Create Products Table
+
+CREATE TABLE Products (
+
+    ProductID INT PRIMARY KEY AUTO_INCREMENT,
+
+    ProductCode VARCHAR(50),
+
+    ProductName VARCHAR(100),
+
+    Description TEXT,
+
+    StandardCost DECIMAL(10, 2),
+
+    ListPrice DECIMAL(10, 2),
+
+    ReorderLevel INT,
+
+    TargetLevel INT,
+
+    QuantityPerUnit VARCHAR(50),
+
+    Discontinued BOOLEAN,
+
+    MinimumReorderQuantity INT
+
+);
+
+
+
+Create OrderDetails Table
+
+CREATE TABLE OrderDetails (
+
+    OrderDetailID INT PRIMARY KEY AUTO_INCREMENT,
+
+    OrderID INT,
+
+    ProductID INT,
+
+    Quantity INT,
+
+    UnitPrice DECIMAL(10, 2),
+
+    Discount DECIMAL(5, 2),
+
+    StatusID INT,
+
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID) ON DELETE CASCADE,
+
+    FOREIGN KEY (ProductID) REFERENCES Products(ProductID) ON DELETE CASCADE
+
+);
+
+
+
+Insert into Orders
+
+INSERT INTO Orders (EmployeeID, CustomerID, OrderDate, ShippedDate, ShipperID) VALUES
+
+(1, 1, ‘2023-01-01’, ‘2023-01-03’, 1),
+
+(2, 2, ‘2023-01-02’, ‘2023-01-04’, 2),
+
+(3, 3, ‘2023-01-03’, ‘2023-01-05’, 1),
+
+(4, 4, ‘2023-01-04’, ‘2023-01-06’, 3),
+
+(5, 5, ‘2023-01-05’, ‘2023-01-07’, 2);
+
+
+
+Insert into Products
+
+INSERT INTO Products (ProductCode, ProductName, Description, StandardCost, ListPrice, ReorderLevel, TargetLevel, QuantityPerUnit, Discontinued, MinimumReorderQuantity) VALUES
+
+(‘P001’, ‘Product 1’, ‘Description 1’, 10.00, 15.00, 5, 10, ’10 units’, FALSE, 2),
+
+(‘P002’, ‘Product 2’, ‘Description 2’, 20.00, 25.00, 5, 10, ’20 units’, FALSE, 3),
+
+(‘P003’, ‘Product 3’, ‘Description 3’, 30.00, 35.00, 5, 10, ’30 units’, TRUE, 4),
+
+(‘P004’, ‘Product 4’, ‘Description 4’, 40.00, 45.00, 5, 10, ’40 units’, FALSE, 5),
+
+(‘P005’, ‘Product 5’, ‘Description 5’, 50.00, 55.00, 5, 10, ’50 units’, TRUE, 6);
+
+
+
+Insert into OrderDetails
+
+INSERT INTO OrderDetails (OrderID, ProductID, Quantity, UnitPrice, Discount, StatusID) VALUES
+
+(1, 1, 2, 15.00, 0, 1),
+
+(1, 2, 1, 25.00, 0, 1),
+
+(2, 3, 3, 35.00, 5, 2),
+
+(3, 1, 1, 15.00, 0, 1),
+
+(4, 2, 2, 25.00, 0, 1);
+
